@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <title>Expreso Tec</title>
+</head>
+
+<body id="home">
+  <nav class="navbar navbar-expand-sm bg-primary text-white navbar-dark fixed-top">
+    <div class="container">
+      <a href="botones.html" class="navbar-brand">Expreso Tec</a>
+      <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                   <span class="navbar-toggler-icon"></span>
+               </button>
+      <div class="collapse navbar-collapse" id="navbarCollapse">
+        <ul class="navbar-nav ml-auto">
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HOME SECTION -->
+  <header id="home-section">
+    <div class="dark-overlay">
+      <div class="home-inner">
+        <div class="container">
+          <div class="row">
+
+            <div class="col-lg-8">
+              <!-- <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1eWNZjTRR1Q7Oda-imLKp4nDfD08&z=12" width="550" height="400"></iframe> -->
+              <div class="card bg-primary text-center card-form">
+                <div class="card-body">
+                  <h3>Registrate</h3>
+                  <form>
+                    <div class="form-group">
+                      <input id="matricula" type="text" placeholder="Matricula">
+                    </div> 
+                    <div class="form-group">
+                      <input id="email" type="text" placeholder="email">
+                    </div>      
+                    <div class="form-group">
+                      <input id="contrasena" type="password" placeholder="Contrasena">
+                    </div>
+                    <button id="Rsubmit" type="button" class="btn btn-secondary">Registrarse</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  
+  <script src="js/jquery.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/jque.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/prueba.js"></script>
+
+
+  <script>
+
+    var $matricula = $('#matricula');
+    var $email = $('#email');
+    var $contrasena = $('#contrasena');
+
+    $(document).ready(function(){
+      $.ajax({
+      type: 'GET',
+      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/',
+      success: function(data) {
+        console.log(data); //pone lo que esta en el jason del url
+      }
+      })
+    });
+
+    $('#Rsubmit').on('click', function(){
+      var alumno = {
+        id: $matricula.val(),
+        email: $email.val(),
+        password: $contrasena.val(),
+      };
+      $.ajax({
+      type: 'POST',
+      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/signup',
+      data: alumno,
+      success: function(Stoken) {
+        console.log(Stoken);
+        localStorage.setItem("UsuarioT",Stoken.user);
+        localStorage.setItem("TokenT",Stoken.token);
+        window.open("usuario.html","_self");
+      },
+      error: function(){
+        Materialize.toast('Usuario o contraseña incorrecto', 4000);
+      }
+
+      })
+      console.log(alumno);
+    });
+
+  </script>
+
+
+</body>
+
+</html>
