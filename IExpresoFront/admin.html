@@ -33,27 +33,21 @@
           <div class="row">
 
             <div class="col-lg-8">
-              <!-- <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1eWNZjTRR1Q7Oda-imLKp4nDfD08&z=12" width="550" height="400"></iframe> -->
               <div class="card bg-primary text-center card-form">
                 <div class="card-body">
-                  <h3>Registrate</h3>
+                  <h3>Log In</h3>
                   <form>
                     <div class="form-group">
-                      <input id="matricula" type="text" placeholder="Matricula">
-                    </div> 
+                      <input id="user" type="text" placeholder="Email">
+                    </div>       
                     <div class="form-group">
-                      <input id="email" type="text" placeholder="email">
-                    </div>      
-                    <div class="form-group">
-                      <input id="contrasena" type="password" placeholder="Contrasena">
+                      <input id="password" type="password" placeholder="Password">
                     </div>
-                    <button id="Rsubmit" type="button" class="btn btn-secondary">Registrarse</button>
+                    <button id="submit" type="button" class="btn btn-secondary">Log in</button>
                   </form>
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
       </div>
@@ -71,9 +65,9 @@
 
   <script>
 
-    var $matricula = $('#matricula');
+    var $user = $('#user');
     var $email = $('#email');
-    var $contrasena = $('#contrasena');
+    var $password = $('#password');
 
     $(document).ready(function(){
       $.ajax({
@@ -85,35 +79,37 @@
       })
     });
 
-    $('#Rsubmit').on('click', function(){
-      var alumno = {
-        id: $matricula.val(),
-        email: $email.val(),
-        password: $contrasena.val(),
+    $( "#submit" ).on('click', function() {
+      var alumnoC = {
+        email: $user.val(),
+        password: $password.val(),
       };
-
-      email.value= "";
-      contrasena.value= "";
-      matricula.value= "";
+      console.log("hola");
+      user.value= "";
+      password.value= "";
 
       $.ajax({
       type: 'POST',
-      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/signup',
-      data: alumno,
+      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/login',
+      data: alumnoC,
       success: function(Stoken) {
         console.log(Stoken);
         localStorage.setItem("UsuarioT",Stoken.user);
         localStorage.setItem("TokenT",Stoken.token);
-        window.open("usuario.html","_self");
+        window.open("adminR.html","_self");
       },
       error: function(){
         Materialize.toast('Usuario o contraseña incorrecto', 4000);
       }
 
       })
-      console.log(alumno);
     });
 
+/*
+    $( "#submit" ).click(function() {
+      window.open("usuario.html","_self");
+    });
+    */
   </script>
 
 

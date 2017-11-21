@@ -20,6 +20,9 @@
                </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item active">
+                <button id="LogOut" type="button" class="btn btn-secondary">Log out</button>
+              </li>
         </ul>
       </div>
     </div>
@@ -40,14 +43,17 @@
                   <form>
                     <div class="form-group">
                       <input id="matricula" type="text" placeholder="Matricula">
-                    </div> 
-                    <div class="form-group">
-                      <input id="email" type="text" placeholder="email">
-                    </div>      
+                    </div>     
                     <div class="form-group">
                       <input id="contrasena" type="password" placeholder="Contrasena">
                     </div>
-                    <button id="Rsubmit" type="button" class="btn btn-secondary">Registrarse</button>
+                    <div class="form-group">
+                      <input id="email" type="text" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                      <input id="role" type="text" placeholder="Role (student|admin|driver)">
+                    </div>
+                    <button id="Rsubmit" type="button" class="btn btn-secondary">Registro</button>
                   </form>
                 </div>
               </div>
@@ -71,9 +77,15 @@
 
   <script>
 
+    $('#LogOut').on('click', function(){
+      localStorage.clear();
+      window.open("botones.html","_self");
+    });
+
     var $matricula = $('#matricula');
     var $email = $('#email');
     var $contrasena = $('#contrasena');
+    var $role = $('#role');
 
     $(document).ready(function(){
       $.ajax({
@@ -90,21 +102,25 @@
         id: $matricula.val(),
         email: $email.val(),
         password: $contrasena.val(),
+        role: $role.val(),
       };
 
+      role.value= "";
       email.value= "";
       contrasena.value= "";
       matricula.value= "";
 
+      console.log(localStorage.TokenT);
       $.ajax({
       type: 'POST',
-      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/signup',
+      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/admin/register',
       data: alumno,
-      success: function(Stoken) {
-        console.log(Stoken);
-        localStorage.setItem("UsuarioT",Stoken.user);
-        localStorage.setItem("TokenT",Stoken.token);
-        window.open("usuario.html","_self");
+      headers: {
+          "x-access-token": localStorage.TokenT
+        },
+      success: function(alumno) {
+        console.log(alumno);
+        Materialize.toast('Usuario agregado', 4000);
       },
       error: function(){
         Materialize.toast('Usuario o contraseña incorrecto', 4000);

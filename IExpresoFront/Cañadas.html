@@ -114,6 +114,8 @@
   <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/socket.io.js"></script>
+
 
   <script>
 
@@ -155,6 +157,22 @@
       localStorage.clear();
       window.open("botones.html","_self");
     });     
+
+
+    let client = io('http://34.208.222.53:3000/api/track/Cañadas', {
+  query: `token=${localStorage.TokenT}`
+});
+client.on('update', (loc) => {
+  console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
+});
+
+client.on('error', (err) => {
+  console.log(err);
+});
+
+client.on('notifty', newLoc => {
+  // update map, etc...
+});
   </script>
 </body>
 
