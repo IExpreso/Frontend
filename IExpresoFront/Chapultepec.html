@@ -41,11 +41,11 @@
   </nav>
 
 
-  
+
   <section id="create-head-section" class="bg-primary">
 
     <div class="p-5" class="bg-primary">
-      
+
     </div>
   </section>
 
@@ -66,8 +66,8 @@
   <section id="create-section" class="bg-light text-muted py-5">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">     
-            <div id="map"></div>     
+        <div class="col-md-8">
+            <div id="map"></div>
         </div>
 
         <div class="col-md-4">
@@ -150,8 +150,8 @@
       center:{lat:20.659698 , lng:-103.349609}
     }
     var map = new google.maps.Map(document.getElementById('map'),opcions);
- 
-    
+
+
     function addMarker(coords){
     var marker = new google.maps.Marker({
     position: coords,
@@ -160,8 +160,8 @@
   };
 
     addMarker(coordenadas);
-    
-    
+
+
 /*
     var marker = new google.maps.Marker({
           position: coordenadas,
@@ -182,10 +182,10 @@ client.on('error', (err) => {
 });
 
 client.on('notifty', newLoc => {
-  // update map, etc...
+  // notify user, like some alert or something
 });
   var $RutasB=$('#RutasB');
-  var $RutasB2=$('#RutasB2');  
+  var $RutasB2=$('#RutasB2');
 
               $.ajax({
               type: 'GET',
@@ -197,12 +197,12 @@ client.on('notifty', newLoc => {
               success: function(data) {
                 console.log(data); //pone lo que esta en el jason del url
                 var arr = data.routes;
-      
+
               for(var k in arr) {
                 //console.log(arr[k].name)
                 $RutasB.append("<a href="+arr[k].name+".html"+">"+arr[k].name+"</a><br>");
                 var arr2 = arr[k].Stops;
-      
+
                 for(var l in arr2) {
                   console.log(arr[k].name)
                   if(arr[k].name==="Ciudadela"){
@@ -220,12 +220,12 @@ client.on('notifty', newLoc => {
               error: function(err){
                 window.open("botones.html","_self");
               }
-        
+
       });
             $('#LogOut').on('click', function(){
             localStorage.clear();
             window.open("botones.html","_self");
-          });     
+          });
         </script>
 </body>
 
