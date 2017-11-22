@@ -169,6 +169,21 @@
         });
         */
     }
+
+let client = io('http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/track/Chapultepec', {
+  query: `token=${localStorage.TokenT}`
+});
+client.on('update', (loc) => {
+  console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
+});
+
+client.on('error', (err) => {
+  console.log(err);
+});
+
+client.on('notifty', newLoc => {
+  // update map, etc...
+});
   var $RutasB=$('#RutasB');
   var $RutasB2=$('#RutasB2');  
 
@@ -195,10 +210,6 @@
                     var todo1=arr2[l].location.coordinates[0];
                     var todo2=arr2[l].location.coordinates[1];
                     //addMarker({lat: todo1, lng: todo2});
-                    var marker = new google.maps.Marker({
-                    position: {lat: todo1, lng: todo2},
-                    map: map
-                    });
                     $RutasB2.append("<p>"+arr2[l].name+"</p>");
                   }
                 }
@@ -207,7 +218,7 @@
                }
               },
               error: function(err){
-                
+                window.open("botones.html","_self");
               }
         
       });
