@@ -8,6 +8,12 @@
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
   <title>Ruta Sur</title>
+  <style>
+      #map{
+        height: 480px;
+        width: 100%;
+      }
+    </style>
 </head>
 
 <body id="home">
@@ -54,17 +60,31 @@
 
   <!-- CREATE SECTION -->
   <section id="create-section" class="bg-light text-muted py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-6">
-          <iframe src="https://www.google.com/maps/d/u/0/embed?mid=11u3HCzR5SfJUW_6U71BhH3_oOI4&z=12" width="640" height="480"></iframe>
-        </div>
-        <div class="col-md-6">
-            
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">     
+              <div id="map"></div>     
+          </div>
+  
+          <div class="col-md-4">
+              <table class="table">
+                  <thead class="thead-inverse">
+                    <tr>
+                      <th> </th>
+                      <th>Nombre</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Paradas Activas</th>
+                      <td id="RutasB2">
+                    </tr>
+                  </tbody>
+                </table>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
   <!-- EXPLORE HEAD -->
   <section id="explore-head-section">
@@ -81,45 +101,107 @@
 
   <!-- EXPLORE SECTION -->
   <section id="explore-section" class="bg-light text-muted py-5">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <table class="table">
-            <thead class="thead-inverse">
-              <tr>
-                <th> </th>
-                <th>6:45</th>
-                <th>7:15</th>
-                <th>8:15</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <th scope="row">Rutas Activas</th>
-                <td><a href="RutaTransito.html">RUTA TRÁNSITO</a><br>
-                  <a href="RutaChapultepec.html">RUTA CHAPULTEPEC</a><br>
-                  <a href="RutaCañadas.html">RUTA CAÑADAS</a><br>
-                  <a href="RutaSur.html">RUTA SUR</a><br>
-                  <a href="RutaCiudadela.html">RUTA CIUDADELA</a></td>
-                <td><a href="RutaSantanita.html">RUTA SANTANITA</a><br>
-                  <a href="RutaPalomar.html">RUTA PALOMAR</a><br>
-                  <a href="RutaGuadalupe.html">RUTA GUADALUPE</a><br></td>
-                <td><a href="RutaSur2.html">RUTA SUR 2</a></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="col-md-4">
-          <h3>Rutas Activas</h3>
-          <p>Estas son las rutas disponibles <strong>seleccionala</strong> para ver su localizacion.</p>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-8">
+            <table class="table">
+              <thead class="thead-inverse">
+                <tr>
+                  <th> </th>
+                  <th>Nombre</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">Rutas Activas</th>
+                  <td id="RutasB">
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-4">
+            <h3>Rutas Activas</h3>
+            <p>Estas son las rutas disponibles <strong>seleccionala</strong> para ver su localizacion.</p>
+          </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
+  <script src="js/socket.io.js"></script>
+  
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrMg1gcalNK73EJW3wIrZFSJlOhRGph-o&callback=initMap">
+    </script>
+
+<script>
+    //  var coordenadas = {lat:20.659698 , lng:-103.349609};
+      function initMap(){
+        
+        var opcions ={
+          zoom:12,
+          center:{lat:20.6592517 , lng:-103.4447256}
+        }
+        var map = new google.maps.Map(document.getElementById('map'),opcions);
+        
+     
+        
+        function addMarker(coords){
+        var marker = new google.maps.Marker({
+        position: coords,
+        map: map
+        })
+      };
+    
+        //addMarker(coordenadas);
+    
+        $.ajax({
+                  type: 'GET',
+                  url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
+                  dataType: 'json',
+                  headers: {
+                    "x-access-token": localStorage.TokenT
+                  },
+                  success: function(data) {
+                    console.log(data); //pone lo que esta en el jason del url
+                    var arr = data.routes;
+          
+                  for(var k in arr) {
+                    //console.log(arr[k].name)
+                    $RutasB.append("<a href="+arr[k].name+".html"+">"+arr[k].name+"</a><br>");
+                    var arr2 = arr[k].Stops;
+          
+                    for(var l in arr2) {
+                      //console.log(arr[k].name)
+                      if(arr[k].name==="Sur"){
+                        //console.log(arr2[l].name)
+                        console.log(arr2[l].location.coordinates);
+                        var todo1=arr2[l].location.coordinates[0];
+                        var todo2=arr2[l].location.coordinates[1];
+                        addMarker({lat: todo1, lng: todo2});
+                        $RutasB2.append("<p>"+arr2[l].name+"</p>");
+                      }
+                    }
+    
+    
+                   }
+                  },
+                  error: function(err){
+                    window.open("botones.html","_self");
+                  }
+            
+          });
+        }
+    
+      var $RutasB=$('#RutasB');
+      var $RutasB2=$('#RutasB2');  
+                $('#LogOut').on('click', function(){
+                localStorage.clear();
+                window.open("botones.html","_self");
+              });     
+            </script>
 </body>
 
 </html>

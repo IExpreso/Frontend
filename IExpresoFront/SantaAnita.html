@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
-  <title>Ruta Guadalupe</title>
+  <title>Ruta Santanita</title>
   <style>
       #map{
         height: 480px;
@@ -127,7 +127,6 @@
       </div>
     </section>
 
-
   <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
@@ -136,72 +135,72 @@
     <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrMg1gcalNK73EJW3wIrZFSJlOhRGph-o&callback=initMap">
     </script>
-  <script>
-      //  var coordenadas = {lat:20.659698 , lng:-103.349609};
-        function initMap(){
-          
-          var opcions ={
-            zoom:12,
-            center:{lat:20.6640351 , lng:-103.4154198}
-          }
-          var map = new google.maps.Map(document.getElementById('map'),opcions);
-          
-       
-          
-          function addMarker(coords){
-          var marker = new google.maps.Marker({
-          position: coords,
-          map: map
-          })
-        };
-      
-          //addMarker(coordenadas);
-      
-          $.ajax({
-                    type: 'GET',
-                    url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
-                    dataType: 'json',
-                    headers: {
-                      "x-access-token": localStorage.TokenT
-                    },
-                    success: function(data) {
-                      console.log(data); //pone lo que esta en el jason del url
-                      var arr = data.routes;
+    <script>
+        //  var coordenadas = {lat:20.659698 , lng:-103.349609};
+          function initMap(){
             
-                    for(var k in arr) {
-                      //console.log(arr[k].name)
-                      $RutasB.append("<a href="+arr[k].name+".html"+">"+arr[k].name+"</a><br>");
-                      var arr2 = arr[k].Stops;
+            var opcions ={
+              zoom:12,
+              center:{lat:20.6373677 , lng:-103.4124881}
+            }
+            var map = new google.maps.Map(document.getElementById('map'),opcions);
             
-                      for(var l in arr2) {
-                        //console.log(arr[k].name)
-                        if(arr[k].name==="Guadalupe"){
-                          //console.log(arr2[l].name)
-                          console.log(arr2[l].location.coordinates);
-                          var todo1=arr2[l].location.coordinates[0];
-                          var todo2=arr2[l].location.coordinates[1];
-                          addMarker({lat: todo1, lng: todo2});
-                          $RutasB2.append("<p>"+arr2[l].name+"</p>");
-                        }
-                      }
-      
-      
-                     }
-                    },
-                    error: function(err){
-                      window.open("botones.html","_self");
-                    }
+         
+            
+            function addMarker(coords){
+            var marker = new google.maps.Marker({
+            position: coords,
+            map: map
+            })
+          };
+        
+            //addMarker(coordenadas);
+        
+            $.ajax({
+                      type: 'GET',
+                      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
+                      dataType: 'json',
+                      headers: {
+                        "x-access-token": localStorage.TokenT
+                      },
+                      success: function(data) {
+                        console.log(data); //pone lo que esta en el jason del url
+                        var arr = data.routes;
               
-            });
-          }
-      
-        var $RutasB=$('#RutasB');
-        var $RutasB2=$('#RutasB2');  
-                  $('#LogOut').on('click', function(){
-                  localStorage.clear();
-                  window.open("botones.html","_self");
-                });     
-              </script>  
+                      for(var k in arr) {
+                        //console.log(arr[k].name)
+                        $RutasB.append("<a href="+arr[k].name+".html"+">"+arr[k].name+"</a><br>");
+                        var arr2 = arr[k].Stops;
+              
+                        for(var l in arr2) {
+                          //console.log(arr[k].name)
+                          if(arr[k].name==="SantaAnita"){
+                            //console.log(arr2[l].name)
+                            console.log(arr2[l].location.coordinates);
+                            var todo1=arr2[l].location.coordinates[0];
+                            var todo2=arr2[l].location.coordinates[1];
+                            addMarker({lat: todo1, lng: todo2});
+                            $RutasB2.append("<p>"+arr2[l].name+"</p>");
+                          }
+                        }
+        
+        
+                       }
+                      },
+                      error: function(err){
+                        window.open("botones.html","_self");
+                      }
+                
+              });
+            }
+        
+          var $RutasB=$('#RutasB');
+          var $RutasB2=$('#RutasB2');  
+                    $('#LogOut').on('click', function(){
+                    localStorage.clear();
+                    window.open("botones.html","_self");
+                  });     
+                </script>
 </body>
 
 </html>

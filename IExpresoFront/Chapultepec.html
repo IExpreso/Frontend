@@ -11,7 +11,7 @@
 <style>
   #map{
     height: 480px;
-    width: 640px;
+    width: 100%;
   }
 </style>
 
@@ -41,11 +41,11 @@
   </nav>
 
 
-
+  
   <section id="create-head-section" class="bg-primary">
 
     <div class="p-5" class="bg-primary">
-
+      
     </div>
   </section>
 
@@ -66,8 +66,8 @@
   <section id="create-section" class="bg-light text-muted py-5">
     <div class="container">
       <div class="row">
-        <div class="col-md-8">
-            <div id="map"></div>
+        <div class="col-md-8">     
+            <div id="map"></div>     
         </div>
 
         <div class="col-md-4">
@@ -143,15 +143,17 @@
   </script>
 
   <script>
-  var coordenadas = {lat:20.659698 , lng:-103.349609};
+//  var coordenadas = {lat:20.659698 , lng:-103.349609};
   function initMap(){
+    
     var opcions ={
       zoom:12,
-      center:{lat:20.659698 , lng:-103.349609}
+      center:{lat:20.7094489 , lng:-103.4073544}
     }
     var map = new google.maps.Map(document.getElementById('map'),opcions);
-
-
+    
+ 
+    
     function addMarker(coords){
     var marker = new google.maps.Marker({
     position: coords,
@@ -159,35 +161,9 @@
     })
   };
 
-    addMarker(coordenadas);
+    //addMarker(coordenadas);
 
-
-/*
-    var marker = new google.maps.Marker({
-          position: coordenadas,
-          map: map
-        });
-        */
-    }
-
-let client = io('http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/track/Chapultepec', {
-  query: `token=${localStorage.TokenT}`
-});
-client.on('update', (loc) => {
-  console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
-});
-
-client.on('error', (err) => {
-  console.log(err);
-});
-
-client.on('notifty', newLoc => {
-  // notify user, like some alert or something
-});
-  var $RutasB=$('#RutasB');
-  var $RutasB2=$('#RutasB2');
-
-              $.ajax({
+    $.ajax({
               type: 'GET',
               url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
               dataType: 'json',
@@ -197,19 +173,20 @@ client.on('notifty', newLoc => {
               success: function(data) {
                 console.log(data); //pone lo que esta en el jason del url
                 var arr = data.routes;
-
+      
               for(var k in arr) {
                 //console.log(arr[k].name)
                 $RutasB.append("<a href="+arr[k].name+".html"+">"+arr[k].name+"</a><br>");
                 var arr2 = arr[k].Stops;
-
+      
                 for(var l in arr2) {
-                  console.log(arr[k].name)
-                  if(arr[k].name==="Ciudadela"){
-                    console.log(arr2[l].name)
+                  //console.log(arr[k].name)
+                  if(arr[k].name==="Chapultepec"){
+                    //console.log(arr2[l].name)
+                    console.log(arr2[l].location.coordinates);
                     var todo1=arr2[l].location.coordinates[0];
                     var todo2=arr2[l].location.coordinates[1];
-                    //addMarker({lat: todo1, lng: todo2});
+                    addMarker({lat: todo1, lng: todo2});
                     $RutasB2.append("<p>"+arr2[l].name+"</p>");
                   }
                 }
@@ -220,12 +197,16 @@ client.on('notifty', newLoc => {
               error: function(err){
                 window.open("botones.html","_self");
               }
-
+        
       });
+    }
+
+  var $RutasB=$('#RutasB');
+  var $RutasB2=$('#RutasB2');  
             $('#LogOut').on('click', function(){
             localStorage.clear();
             window.open("botones.html","_self");
-          });
+          });     
         </script>
 </body>
 
