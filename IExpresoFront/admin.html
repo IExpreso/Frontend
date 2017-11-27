@@ -94,9 +94,14 @@
       data: alumnoC,
       success: function(Stoken) {
         console.log(Stoken);
+        if(Stoken.role=="admin"){
         localStorage.setItem("UsuarioT",Stoken.user);
         localStorage.setItem("TokenT",Stoken.token);
         window.open("adminR.html","_self");
+        }else{
+          Materialize.toast('Usted no es administrador', 4000);
+
+        }
       },
       error: function(){
         Materialize.toast('Usuario o contraseña incorrecto', 4000);

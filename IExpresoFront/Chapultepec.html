@@ -143,25 +143,58 @@
   </script>
 
   <script>
+
 //  var coordenadas = {lat:20.659698 , lng:-103.349609};
   function initMap(){
-    
+    var booleano =0;
     var opcions ={
       zoom:12,
       center:{lat:20.7094489 , lng:-103.4073544}
     }
+
+    var icon = {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 8
+};
+
     var map = new google.maps.Map(document.getElementById('map'),opcions);
     
- 
-    
-    function addMarker(coords){
+    function addMarker(props){
     var marker = new google.maps.Marker({
-    position: coords,
-    map: map
+    position: props.coords,
+    map: map,
+    icon:icon,
+    content:"<h1>"+props.content+"</h1>"
     })
-  };
 
-    //addMarker(coordenadas);
+    if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+          marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
+        }
+  }
+  function addMarkericon(props){
+    var marker = new google.maps.Marker({
+    position: props.coords,
+    map: map,
+    content: props.content
+    });
+
+    if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+          marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
+        }
+  }
+  ;
 
     $.ajax({
               type: 'GET',
@@ -183,23 +216,47 @@
                   //console.log(arr[k].name)
                   if(arr[k].name==="Chapultepec"){
                     //console.log(arr2[l].name)
-                    console.log(arr2[l].location.coordinates);
+                    //console.log(arr2[l].location.coordinates);
                     var todo1=arr2[l].location.coordinates[0];
                     var todo2=arr2[l].location.coordinates[1];
-                    addMarker({lat: todo1, lng: todo2});
+                    addMarker({
+                      coords:{lat: todo1, lng: todo2},
+                      content:arr2[l].name});
                     $RutasB2.append("<p>"+arr2[l].name+"</p>");
                   }
                 }
+                let client = io('http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/track/Chapultepec', {
+                query: `token=${localStorage.TokenT}`
+                });
+                client.on('update', (loc) => {
+                if(booleano==0){
+                //console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
+                  addMarkericon({
+                    lat: loc.lat, lng: loc.lng,
+                    content: "Camion"
+                  });
+                  booleano=1;
+                }
+              });
+
+              client.on('error', (err) => {
+                console.log(err);
+              });
+
+              client.on('notifty', newLoc => {
+
+              });
 
 
                }
               },
+
               error: function(err){
                 window.open("botones.html","_self");
-              }
-        
+              }       
       });
     }
+
 
   var $RutasB=$('#RutasB');
   var $RutasB2=$('#RutasB2');  

@@ -142,62 +142,129 @@
   </script>
 
 
-  <script>
+<script>
 
-function initMap(){
-    
+//  var coordenadas = {lat:20.659698 , lng:-103.349609};
+  function initMap(){
+    var booleano =0;
     var opcions ={
       zoom:13,
       center:{lat:20.7406179 , lng:-103.3991146}
     }
+
+    var icon = {
+      path: google.maps.SymbolPath.CIRCLE,
+      scale: 8
+};
+
     var map = new google.maps.Map(document.getElementById('map'),opcions);
     
- 
-    
-    function addMarker(coords){
+    function addMarker(props){
     var marker = new google.maps.Marker({
-    position: coords,
-    map: map
+    position: props.coords,
+    map: map,
+    icon:icon,
+    content:"<h1>"+props.content+"</h1>"
     })
-  };
-  $.ajax({
-        type: 'GET',
-        url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
-        dataType: 'json',
-        headers: {
-          "x-access-token": localStorage.TokenT
-        },
-        success: function(data) {
-          console.log(data); //pone lo que esta en el jason del url
-          var arr = data.routes;
 
-        for(var k in arr) {
-          //console.log(arr[k].name)
-          $RutasB.append("<a href="+arr[k].name+".html"+">"+arr[k].name+"</a><br>");
-          var arr2 = arr[k].Stops;
+    if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
 
-          for(var l in arr2) {
-            //console.log(arr[k].name)
-            if(arr[k].name==="Cañadas"){
-              console.log(arr2[l].location.coordinates);
-              var todo1=arr2[l].location.coordinates[0];
-              var todo2=arr2[l].location.coordinates[1];
-              addMarker({lat: todo1, lng: todo2});
-              $RutasB2.append("<p>"+arr2[l].name+"</p>");
-            }
-          }
-         }
-        },
-        error: function(err){
-          window.open("botones.html","_self");
+          marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
         }
-  
-        });
-}
+  }
+  function addMarkericon(props){
+    var marker = new google.maps.Marker({
+    position: props.coords,
+    map: map,
+    content: props.content
+    });
 
-        var $RutasB=$('#RutasB');
-        var $RutasB2=$('#RutasB2'); 
-  </script>
+    if(props.content){
+          var infoWindow = new google.maps.InfoWindow({
+            content:props.content
+          });
+
+          marker.addListener('click', function(){
+            infoWindow.open(map, marker);
+          });
+        }
+  }
+  ;
+
+    $.ajax({
+              type: 'GET',
+              url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
+              dataType: 'json',
+              headers: {
+                "x-access-token": localStorage.TokenT
+              },
+              success: function(data) {
+                console.log(data); //pone lo que esta en el jason del url
+                var arr = data.routes;
+      
+              for(var k in arr) {
+                //console.log(arr[k].name)
+                $RutasB.append("<a href="+arr[k].name+".html"+">"+arr[k].name+"</a><br>");
+                var arr2 = arr[k].Stops;
+      
+                for(var l in arr2) {
+                  //console.log(arr[k].name)
+                  if(arr[k].name==="Cañadas"){
+                    //console.log(arr2[l].name)
+                    //console.log(arr2[l].location.coordinates);
+                    var todo1=arr2[l].location.coordinates[0];
+                    var todo2=arr2[l].location.coordinates[1];
+                    addMarker({
+                      coords:{lat: todo1, lng: todo2},
+                      content:arr2[l].name});
+                    $RutasB2.append("<p>"+arr2[l].name+"</p>");
+                  }
+                }
+                let client = io('http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/track/Cañadas', {
+                query: `token=${localStorage.TokenT}`
+                });
+                client.on('update', (loc) => {
+                if(booleano==0){
+                //console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
+                  addMarkericon({
+                    lat: loc.lat, lng: loc.lng,
+                    content: "Camion"
+                  });
+                  booleano=1;
+                }
+              });
+
+              client.on('error', (err) => {
+                console.log(err);
+              });
+
+              client.on('notifty', newLoc => {
+
+              });
+
+
+               }
+              },
+
+              error: function(err){
+                window.open("botones.html","_self");
+              }       
+      });
+    }
+
+
+  var $RutasB=$('#RutasB');
+  var $RutasB2=$('#RutasB2');  
+            $('#LogOut').on('click', function(){
+            localStorage.clear();
+            window.open("botones.html","_self");
+          });     
+        </script>
 </body>
 
 
