@@ -226,7 +226,7 @@
                 if(booleano==0){
                 //console.log(`latitude is: ${loc.lat} and longitude is: ${loc.lng}`);
                   addMarkericon({
-                    lat: loc.lat, lng: loc.lng,
+                    coords:{lat: loc.lat, lng: loc.lng},
                     content: "Camion"
                   });
                   booleano=1;
