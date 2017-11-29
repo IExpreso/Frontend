@@ -191,6 +191,8 @@
       }, function(err) {
         console.warn('ERROR('+ err.code + '): ' + err.message);
       });
+    } else {
+      console.warn('No geolocation');
     }
 
     function addMarker(props){

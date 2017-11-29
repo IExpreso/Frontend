@@ -32,7 +32,7 @@
         <div class="container">
           <div class="row">
 
-            <div class="col-lg-8">
+            <div class="col-lg-8" style="margin: auto">
               <div class="card bg-primary text-center card-form">
                 <div class="card-body">
                   <h3>Log In</h3>
@@ -84,11 +84,11 @@
           data: alumnoC,
           success: function(Stoken) {
             console.log(Stoken);
-            localStorage.setItem("UsuarioT",Stoken.user);
-            localStorage.setItem("TokenT",Stoken.token);
+            localStorage.setItem("UsuarioT", Stoken.user);
+            localStorage.setItem("TokenT", Stoken.token);
             window.open("usuario.html","_self");
           },
-          error: function(){
+          error: function() {
             Materialize.toast('Usuario o contraseña incorrecto', 4000);
           }
 
