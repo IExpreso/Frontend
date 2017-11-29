@@ -90,7 +90,7 @@
     $(document).ready(function(){
       $.ajax({
       type: 'GET',
-      url: 'https://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/',
+      url: 'http://-34-208-222-53.us-west-2.compute.amazonaws.com:3000/',
       success: function(data) {
         console.log(data); //pone lo que esta en el jason del url
       }
@@ -113,7 +113,7 @@
       console.log(localStorage.TokenT);
       $.ajax({
       type: 'POST',
-      url: 'https://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/admin/register',
+      url: 'http://-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/admin/register',
       data: alumno,
       headers: {
           "x-access-token": localStorage.TokenT
