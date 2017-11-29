@@ -192,7 +192,7 @@
 
     $.ajax({
               type: 'GET',
-              url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
+              url: 'https://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
               dataType: 'json',
               headers: {
                 "x-access-token": localStorage.TokenT
@@ -219,7 +219,7 @@
                     $RutasB2.append("<p>"+arr2[l].name+"</p>");
                   }
                 }
-                let client = io('http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/track/Ciudadela', {
+                let client = io('https://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/track/Ciudadela', {
                 query: `token=${localStorage.TokenT}`
                 });
                 client.on('update', (loc) => {
