@@ -3,34 +3,6 @@
     <script src="js/jquery.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
-    <script>
-       /*
-       var $RutasB=$('#RutasB');
-
-        $.ajax({
-        type: 'GET',
-        url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/routes',
-        dataType: 'json',
-        headers: {
-          "x-access-token": localStorage.TokenT
-        },
-        success: function(data) {
-          console.log(data); //pone lo que esta en el jason del url
-          var arr = data.routes;
-        for(var k in arr) {
-          console.log(arr[k].name)
-          $RutasB
-         }
-
-
-        },
-        error: function(err){
-          window.open("botones.html","_self");
-        }
-  
-        })  
-        */
-    </script>
 
 <head>
   <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -127,19 +99,19 @@
             <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1eWNZjTRR1Q7Oda-imLKp4nDfD08&z=12" width="550" height="400"></iframe>
         </div>
         <div class="col-md-6">
-            
+
         </div>
       </div>
     </div>
   </section>
-  
+
   <script>
    $(document).ready(function(){
     console.log(localStorage.UsuarioT);
     console.log(localStorage.TokenT);
     });
 
-           
+
     var $RutasB=$('#RutasB');
 
         $.ajax({
@@ -167,13 +139,13 @@
         error: function(err){
           window.open("botones.html","_self");
         }
-  
-        });  
+
+        });
 
     $('#LogOut').on('click', function(){
       localStorage.clear();
       window.open("botones.html","_self");
-    });    
+    });
 
   </script>
 </body>

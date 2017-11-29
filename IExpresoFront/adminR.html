@@ -88,46 +88,38 @@
     var $role = $('#role');
 
     $(document).ready(function(){
-      $.ajax({
-      type: 'GET',
-      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/',
-      success: function(data) {
-        console.log(data); //pone lo que esta en el jason del url
-      }
-      })
-    });
+      $('#Rsubmit').on('click', function(){
+        var alumno = {
+          id: $matricula.val(),
+          email: $email.val(),
+          password: $contrasena.val(),
+          role: $role.val(),
+        };
 
-    $('#Rsubmit').on('click', function(){
-      var alumno = {
-        id: $matricula.val(),
-        email: $email.val(),
-        password: $contrasena.val(),
-        role: $role.val(),
-      };
+        role.value= "";
+        email.value= "";
+        contrasena.value= "";
+        matricula.value= "";
 
-      role.value= "";
-      email.value= "";
-      contrasena.value= "";
-      matricula.value= "";
-
-      console.log(localStorage.TokenT);
-      $.ajax({
-      type: 'POST',
-      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/admin/register',
-      data: alumno,
-      headers: {
-          "x-access-token": localStorage.TokenT
+        console.log(localStorage.TokenT);
+        $.ajax({
+        type: 'POST',
+        url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/api/admin/register',
+        data: alumno,
+        headers: {
+            "x-access-token": localStorage.TokenT
+          },
+        success: function(alumno) {
+          console.log(alumno);
+          Materialize.toast('Usuario agregado', 4000);
         },
-      success: function(alumno) {
-        console.log(alumno);
-        Materialize.toast('Usuario agregado', 4000);
-      },
-      error: function(){
-        Materialize.toast('Usuario o contraseña incorrecto', 4000);
-      }
+        error: function(){
+          Materialize.toast('Usuario o contraseña incorrecto', 4000);
+        }
 
-      })
-      console.log(alumno);
+        })
+        console.log(alumno);
+      });
     });
 
   </script>

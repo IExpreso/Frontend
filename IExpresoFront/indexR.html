@@ -40,10 +40,10 @@
                   <form>
                     <div class="form-group">
                       <input id="matricula" type="text" placeholder="Matricula">
-                    </div> 
+                    </div>
                     <div class="form-group">
                       <input id="email" type="text" placeholder="email">
-                    </div>      
+                    </div>
                     <div class="form-group">
                       <input id="contrasena" type="password" placeholder="Contrasena">
                     </div>
@@ -59,7 +59,7 @@
       </div>
     </div>
   </header>
-  
+
   <script src="js/jquery.min.js"></script>
   <script src="js/popper.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
@@ -76,44 +76,36 @@
     var $contrasena = $('#contrasena');
 
     $(document).ready(function(){
-      $.ajax({
-      type: 'GET',
-      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/',
-      success: function(data) {
-        console.log(data); //pone lo que esta en el jason del url
-      }
-      })
+      $('#Rsubmit').on('click', function(){
+        var alumno = {
+          id: $matricula.val(),
+          email: $email.val(),
+          password: $contrasena.val(),
+        };
+
+        email.value= "";
+        contrasena.value= "";
+        matricula.value= "";
+
+        $.ajax({
+          type: 'POST',
+          url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/signup',
+          data: alumno,
+          success: function(Stoken) {
+            console.log(Stoken);
+            localStorage.setItem("UsuarioT",Stoken.user);
+            localStorage.setItem("TokenT",Stoken.token);
+            window.open("usuario.html","_self");
+          },
+          error: function(){
+            Materialize.toast('Usuario o contraseña incorrecto', 4000);
+          }
+
+        })
+        console.log(alumno);
+      });
     });
-
-    $('#Rsubmit').on('click', function(){
-      var alumno = {
-        id: $matricula.val(),
-        email: $email.val(),
-        password: $contrasena.val(),
-      };
-
-      email.value= "";
-      contrasena.value= "";
-      matricula.value= "";
-
-      $.ajax({
-      type: 'POST',
-      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/signup',
-      data: alumno,
-      success: function(Stoken) {
-        console.log(Stoken);
-        localStorage.setItem("UsuarioT",Stoken.user);
-        localStorage.setItem("TokenT",Stoken.token);
-        window.open("usuario.html","_self");
-      },
-      error: function(){
-        Materialize.toast('Usuario o contraseña incorrecto', 4000);
-      }
-
-      })
-      console.log(alumno);
-    });
-
+    
   </script>
 
 
