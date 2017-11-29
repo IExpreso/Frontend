@@ -78,7 +78,7 @@
     $(document).ready(function(){
       $.ajax({
       type: 'GET',
-      url: 'http://-34-208-222-53.us-west-2.compute.amazonaws.com:3000/',
+      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/',
       success: function(data) {
         console.log(data); //pone lo que esta en el jason del url
       }
@@ -98,7 +98,7 @@
 
       $.ajax({
       type: 'POST',
-      url: 'http://-34-208-222-53.us-west-2.compute.amazonaws.com:3000/signup',
+      url: 'http://ec2-34-208-222-53.us-west-2.compute.amazonaws.com:3000/signup',
       data: alumno,
       success: function(Stoken) {
         console.log(Stoken);
