@@ -4,6 +4,7 @@
 <head>
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/bootstrap.css">
   <link rel="stylesheet" href="css/style.css">
@@ -35,7 +36,7 @@
         <div class="container">
           <div class="row">
 
-            <div class="col-lg-8">
+            <div class="col-lg-8" style="margin: auto">
               <!-- <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1eWNZjTRR1Q7Oda-imLKp4nDfD08&z=12" width="550" height="400"></iframe> -->
               <div class="card bg-primary text-center card-form">
                 <div class="card-body">
@@ -45,13 +46,18 @@
                       <input id="matricula" type="text" placeholder="Matricula">
                     </div>
                     <div class="form-group">
-                      <input id="contrasena" type="password" placeholder="Contrasena">
-                    </div>
-                    <div class="form-group">
                       <input id="email" type="text" placeholder="Email">
                     </div>
                     <div class="form-group">
-                      <input id="role" type="text" placeholder="Role (student|admin|driver)">
+                      <input id="contrasena" type="password" placeholder="Contraseña">
+                    </div>
+                    <div class="form-group">
+                      <!-- Dropdown -->
+                      <select id="role" name="role" style="display: block; color: black">
+                        <option value="student" selected="selected" style="color: black">Estudiante</option>
+                        <option value="driver" style="color: black">Chofer</option>
+                        <option value="admin" style="color: black">Administrador</option>
+                      </select>
                     </div>
                     <button id="Rsubmit" type="button" class="btn btn-secondary">Registro</button>
                   </form>
